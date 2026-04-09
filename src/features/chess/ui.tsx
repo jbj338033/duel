@@ -29,7 +29,7 @@ export function ChessBoardView({ fen, currentTurn, myColor, disabled, onMove }: 
   const legalMoves = selectedSquare
     ? chess.moves({ square: selectedSquare as Parameters<typeof chess.moves>[0]["square"], verbose: true })
     : [];
-  const legalTargets = new Set(legalMoves.map((m) => m.to));
+  const legalTargets: Set<string> = new Set(legalMoves.map((m) => m.to));
 
   const isFlipped = myColor === "black";
   const ranks = isFlipped ? [...RANKS].reverse() : RANKS;
