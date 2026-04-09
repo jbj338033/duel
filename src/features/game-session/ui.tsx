@@ -1,27 +1,30 @@
 "use client";
 
-import type { GameResult, PlayerColor } from "@/shared/types";
+import type { GameResult, GameType, PlayerColor } from "@/shared/types";
 
 interface GameStatusBarProps {
   currentTurn: PlayerColor;
   myColor: PlayerColor;
   result: GameResult | null;
-  gameType: "gomoku" | "chess";
+  gameType: GameType;
 }
 
 export function GameStatusBar({ currentTurn, myColor, result, gameType }: GameStatusBarProps) {
   const isMyTurn = currentTurn === myColor;
-  const colorLabel = (c: PlayerColor) =>
-    gameType === "gomoku"
-      ? c === "black" ? "Black" : "White"
-      : c === "white" ? "White" : "Black";
+  const colorLabel = (c: PlayerColor) => {
+    if (gameType === "connect4") return c === "black" ? "Red" : "Yellow";
+    if (gameType === "gomoku") return c === "black" ? "Black" : "White";
+    return c === "white" ? "White" : "Black";
+  };
 
   return (
     <div className="flex items-center justify-between rounded-lg bg-neutral-100 px-4 py-3 text-sm">
       <div className="flex items-center gap-2">
         <span
           className={`inline-block h-3 w-3 rounded-full ${
-            myColor === "black" ? "bg-neutral-900" : "bg-white border border-neutral-300"
+            gameType === "connect4"
+              ? myColor === "black" ? "bg-red-500" : "bg-yellow-400"
+              : myColor === "black" ? "bg-neutral-900" : "bg-white border border-neutral-300"
           }`}
         />
         <span className="text-neutral-600">
